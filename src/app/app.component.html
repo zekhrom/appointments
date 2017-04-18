@@ -1,3 +1,35 @@
-<h1>
+<h1 class="title">
   {{title}}
 </h1>
+
+<div class="row">
+  <div class="col-md-9">
+    <angular2-fullcalendar id="myCalendar" [options]="calendarOptions"></angular2-fullcalendar>
+  </div>
+  <div class="form-group col-md-3">
+    <form id="myForm" #myForm="ngForm">
+    <span  class="row"><strong>Paciente</strong></span>
+    <span class="row">{{paciente}}</span>
+    <span  class="row"><strong>Documento</strong></span>
+    <span class="row">{{documento}}</span>
+    <span  class="row"><strong>Sede</strong></span>
+    <select class="row form-control" name="sede" [(ngModel)]="selectedSede" [disabled]="true">
+      <option [value]="sede.value" *ngFor="let sede of sedes">{{sede.text}}</option>
+    </select>
+    <span  class="row"><strong>Especialidad</strong></span>
+    <select class="row form-control" name="especialidad" [(ngModel)]="selectedEspecialidad">
+      <option [value]="especialidad.value" *ngFor="let especialidad of especialidades">{{especialidad.text}}</option>
+    </select>
+    <span  class="row"><strong>Profesional</strong></span>
+    <select id="profesional" class="row form-control" #profesional="ngModel" name="profesional" [(ngModel)]="selectedProfesional" required>
+      <option *ngFor="let profesional of (profesionales | myfilter: selectedEspecialidad)">{{profesional.text}}</option>
+    </select>
+    <div *ngIf="profesional.errors"
+          class="alert alert-danger">
+        <div [hidden]="!profesional.errors.required">
+          Debe seleccionar un profesional
+        </div>
+    </div>
+    </form>
+  </div>
+</div>
